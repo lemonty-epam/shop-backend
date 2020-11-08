@@ -1,0 +1,58 @@
+[
+  {
+    "count": 16,
+    "description": "Samsung Galaxy A31 SM-A315F/DS 4GB/128GB",
+    "id": "111",
+    "price": 215,
+    "title": "Galaxy A31"
+  },
+  {
+    "count": 44,
+    "description": "Samsung Galaxy A71 SM-A715F/DSM 6GB/128GB",
+    "id": "222",
+    "price": 400,
+    "title": "Galaxy A71"
+  },
+  {
+    "count": 11,
+    "description": "Samsung Galaxy M31 SM-M315F/DSN 6GB/128GB",
+    "id": "333",
+    "price": 300,
+    "title": "Galaxy M31"
+  },
+  {
+    "count": 20,
+    "description": "Samsung Galaxy A40 4GB/64GB",
+    "id": "444",
+    "price": 150,
+    "title": "Galaxy A40"
+  },
+  {
+    "count": 45,
+    "description": "Samsung Galaxy A01 SM-A015F/DS",
+    "id": "555",
+    "price": 130,
+    "title": "Galaxy A01"
+  },
+  {
+    "count": 18,
+    "description": "Samsung Galaxy Note10 Lite SM-N770F/DSM 6GB/128GB",
+    "id": "666",
+    "price": 500,
+    "title": "Galaxy Note10"
+  },
+  {
+    "count": 14,
+    "description": "Samsung Galaxy S10 G973 8GB/128GB Dual SIM Exynos 9820",
+    "id": "777",
+    "price": 650,
+    "title": "Galaxy S10"
+  },
+  {
+    "count": 26,
+    "description": "Samsung Galaxy S20 SM-G980F/DS 8GB/128GB Exynos 990",
+    "id": "888",
+    "price": 700,
+    "title": "Galaxy S20"
+  }
+]

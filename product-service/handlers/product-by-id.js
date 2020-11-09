@@ -19,12 +19,11 @@ export const productById = async (event, context, callback) => {
   const client = new Client(dbOptions);
   await client.connect();
 
-  try {
-    const result = await client.query('' +
-        'select p.id, p.title , p.description, p.price, s.count\n' +
-        'from products p, stocks s\n' +
-        'where p.id = s.product_id\n' +
-        '      and p.id = $1', [productId]);
+  const query = 'select p.id, p.title , p.description, p.price, coalesce(s.count, 0) count from products p' +
+      ' left join stocks s on p.id = s.product_id  where p.id = $1';
+
+    try {
+    const result = await client.query(query, [productId]);
 
     if (result.rows[0]) {
       callback(null, {"statusCode": 200, "body": JSON.stringify(result.rows[0])});

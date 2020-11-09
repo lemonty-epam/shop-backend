@@ -18,29 +18,19 @@ export const productNew = async (event, context, callback) => {
   await client.connect();
   var data = JSON.parse(event.body)
 
-  const sqlQuery = 'INSERT INTO products (title, description, price)  VALUES($1, $2, $3) RETURNING *';
+  const sqlQueryProduct = 'INSERT INTO products (title, description, price) VALUES($1, $2, $3) RETURNING *';
   const values = [data.title, data.description, data.price];
-
+  //const sqlQueryStock = 'INSERT INTO stocks (product_id, count)  VALUES($1, $2) RETURNING *';
 
   try {
-    client.query(sqlQuery, values, (err, res) => {
-      if (err) {
-        var message = {"message": err.stack};
-        callback(null, {"statusCode": 400, "body": message});
-      } else {
-        console.log(res.rows[0]);
-        callback(null, {"statusCode": 200, "body": JSON.stringify(result.rows[0])});
-      }
-    });
+    const result = await client.query(sqlQueryProduct, values);
+    callback(null, {"statusCode": 200, "body": JSON.stringify(result.rows[0])});
   } catch (err) {
       var message = {"message": err.stack};
       callback(null, {"statusCode": 500, "body": message});
   } finally {
     client.end();
   }
-
-
-
 
 };
 

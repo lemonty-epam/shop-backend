@@ -6,6 +6,17 @@ provider:
   stage: dev
   region: eu-central-1
 
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:ListBucket"
+      Resource:
+        - "arn:aws:s3:::uploaded1"
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource:
+        - "arn:aws:s3:::uploaded1/*"
+
 plugins:
   - serverless-webpack
 

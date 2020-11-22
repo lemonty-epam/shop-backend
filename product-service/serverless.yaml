@@ -12,6 +12,16 @@ provider:
     PG_DATABASE: lesson4
     PG_USERNAME: postgres
     PG_PASSWORD:
+# Note: not need in this module
+#   SQS_URL:
+#      Ref: SQSQueue
+
+# !Note: Not needed hear as permission to send message to sqs should be defined for lambda importFileParser from import-service
+#  iamRoleStatements:
+#    - Effect: "Allow"
+#      Action: "sqs:*"
+#      Resource:
+#        - Fn::GetAtt: [SQSQueue, Arn]
 
 plugins:
   - serverless-webpack
@@ -46,3 +56,20 @@ functions:
             parameters:
               paths:
                 productId: true
+
+  catalogBatchProcess:
+    handler: handler.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - SQSQueue
+              - Arn
+
+resources:
+  Resources:
+    SQSQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue

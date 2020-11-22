@@ -16,6 +16,10 @@ provider:
         - "s3:*"
       Resource:
         - "arn:aws:s3:::nodejs-products-bucket/*"
+    - Effect: "Allow"
+      Action: "sqs:*"
+      Resource:
+        - "arn:aws:sqs:eu-central-1:414456242917:catalogItemsQueue"
 
 plugins:
   - serverless-webpack

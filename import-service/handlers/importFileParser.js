@@ -3,6 +3,7 @@ const csv = require('csv-parser')
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({region: 'eu-central-1'});
 const BUCKET = 'nodejs-products-bucket';
+const sqs = new AWS.SQS();
 
 export const importFileParser = (event) => {
     console.log('Lambda importFileParser invocation with event: ', event);
@@ -14,12 +15,15 @@ export const importFileParser = (event) => {
             Key: objKey
         }).createReadStream();
 
-        console.log("after stream creation");
-
         s3Stream
             .pipe(csv())
             .on('data', (data) => {
-                console.log(data);
+                sqs.sendMessage({
+                    QueueUrl: 'https://sqs.eu-central-1.amazonaws.com/414456242917/catalogItemsQueue',
+                    MessageBody: JSON.stringify(data)
+                }, () => {
+                    console.log('sending to queue' + JSON.stringify(data));
+                });
             })
             .on('end', async() => {
                 console.log("Copy from " + BUCKET + "/" + objKey);

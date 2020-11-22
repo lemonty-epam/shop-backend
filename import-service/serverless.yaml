@@ -1,0 +1,48 @@
+service: import-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: eu-central-1
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:ListBucket"
+      Resource:
+        - "arn:aws:s3:::nodejs-products-bucket"
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource:
+        - "arn:aws:s3:::nodejs-products-bucket/*"
+
+plugins:
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+
+functions:
+  importProductsFile:
+    handler: handler.importProductsFile
+    events:
+      - http:
+          path: import
+          method: get
+          request:
+            parameters:
+              querystrings:
+                name: true
+  importFileParser:
+    handler: handler.importFileParser
+    events:
+      - s3:
+          bucket: nodejs-products-bucket
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
+

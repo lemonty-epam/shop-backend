@@ -12,9 +12,16 @@ provider:
     PG_DATABASE: lesson4
     PG_USERNAME: postgres
     PG_PASSWORD:
+    SNS_ARN:
+      Ref: SNSTopic
 # Note: not need in this module
 #   SQS_URL:
 #      Ref: SQSQueue
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "sns:*"
+      Resource:
+        - Ref: SNSTopic
 
 # !Note: Not needed hear as permission to send message to sqs should be defined for lambda importFileParser from import-service
 #  iamRoleStatements:
@@ -73,3 +80,14 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: catalogItemsQueue
+    SNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    SNSSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: constantlearning1985@gmail.com
+        Protocol: email
+        TopicArn:
+          Ref: SNSTopic

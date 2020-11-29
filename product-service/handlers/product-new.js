@@ -1,11 +1,11 @@
 const {Client} = require('pg');
 
-const dbOptions  = {
-  host: 'lesson4.czoz6duffqoz.eu-central-1.rds.amazonaws.com',
-  port: 5432,
-  database: 'lesson4',
-  user: 'postgres',
-  password: '',
+const dbOptions = {
+  host: process.env.PG_HOST,
+  port: process.env.PG_PORT,
+  database: process.env.PG_DATABASE,
+  user: process.env.PG_USERNAME,
+  password: process.env.PG_PASSWORD,
   ssl: {
     rejectUnauthorized: false
   },

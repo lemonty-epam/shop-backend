@@ -15,8 +15,20 @@ export const basicAuthorizer = (event, context, callback) => {
         const storedUserPassword = process.env[username];
         console.log(`storedUserPassword = ${storedUserPassword}`);
         const effect = !storedUserPassword || storedUserPassword != password ? 'Deny' : 'Allow';
-        const policy = generatePolicy(encodedCreds, event.methodArn, effect);
-        
+
+        const policy = {
+            principalId: encodedCreds,
+            policyDocument: {
+                Version: '2012-10-17',
+                Statement:[
+                    {
+                        Action: 'execute-api:Invoke',
+                        Effect: effect,
+                        Resource: event.methodArn
+                    }
+                ]
+            }
+        };
         callback(null, policy);
 
     } catch (e) {
@@ -24,19 +36,3 @@ export const basicAuthorizer = (event, context, callback) => {
     }
 
 };
-
-const  generatePolicy = (principalId, resource, effect = 'Allow') => {
-    return {
-        principalId: principalId,
-        policyDocument: {
-            Version: '2012-10-17',
-            Statement:[
-                {
-                    Action: 'execute-api:Invoke',
-                    Effect: effect,
-                    Resource: resource
-                }
-            ]
-        }
-    };
-}

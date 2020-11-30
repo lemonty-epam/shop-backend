@@ -1,4 +1,4 @@
-import { basicAuthorizer } from './handlers/basicAuthorizer';
+import { basicAuthorizer } from './handlers/basicAuthorizer.js';
 
 export {
   basicAuthorizer
